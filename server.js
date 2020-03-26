@@ -6,9 +6,9 @@ const formidable=require('express-formidable')
 const {auth}=require('./server/middleware/auth')
 const cloudinary=require('cloudinary')
 const { admin } = require('./server/middleware/admin');
-const {Member}=require("./server/models/member")
+const {Member}=require("./server/models/Member")
 const {Record}=require("./server/models/records")
-const {Award}=require("./server/models/award")
+const {Award}=require("./server/models/Award")
 const jwt=require('jsonwebtoken')
 var nodemailer = require('nodemailer');
 
