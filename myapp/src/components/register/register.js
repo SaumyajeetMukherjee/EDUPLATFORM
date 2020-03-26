@@ -4,7 +4,7 @@ import FormFields from '../utils/formfields';
 import {update,validform, generatedata} from '../utils/formtions'
 import {connect} from 'react-redux'
 import {registeruser} from '../actions/memberactions'
-import hexa from '../../images/hexa.png'
+import hexa from '../../images/logo.png'
 
 class Register extends Component {
     state={

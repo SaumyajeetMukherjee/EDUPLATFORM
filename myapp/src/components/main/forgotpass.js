@@ -5,7 +5,7 @@ import {update,validform, generatedata} from '../utils/formtions'
 import {connect} from 'react-redux'
 import {forgetpass} from '../actions/memberactions'
 import queryString from 'query-string';
-import hexa from '../../images/hexa.png'
+import hexa from '../../images/logo.png'
 
 
 

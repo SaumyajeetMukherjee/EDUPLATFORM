@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import four from '../../images/2.png' 
+import four from '../../images/2.jpg' 
 import five from '../../images/3.jpg'
 import six from '../../images/1.jpg'
 import {allawards} from '../actions/recordactions'

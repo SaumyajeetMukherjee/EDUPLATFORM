@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {update,validform, generatedata} from '../utils/formtions'
 import {addaward}  from '../actions/recordactions'
 import FormFields from '../utils/formfields';
+import FileUpload from '../utils/fileupload'
 class Addnews extends Component {
 
     state={ 
@@ -97,7 +98,7 @@ submitform=(event)=>{
     const data=generatedata(this.state.formdata,'register')
     console.log(this.props.user.member)
     if(true){
-        this.props.dispatch(addnews(data)).then((response)=>{
+        this.props.dispatch(addaward(data)).then((response)=>{
             if(response.payload.success){
              console.log('hurray')
                 this.setState({

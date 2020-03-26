@@ -3,7 +3,7 @@ import FormFields from '../utils/formfields';
 import {update,validform, generatedata} from '../utils/formtions'
 import {connect} from 'react-redux'
 import {forget} from '../actions/memberactions'
-import hexa from '../../images/hexa.png'
+import hexa from '../../images/logo.png'
 
 class Forget extends Component {
     state={

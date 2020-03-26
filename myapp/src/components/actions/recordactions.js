@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     ADDDETAIL,
     ADDRECORD,
-    ALLAWARD,
+    ALLAWARDS,
     ALLALUM,
     ADDAWARD,
     SEARCHYR,
@@ -51,7 +51,7 @@ export function allawards(){
         .then(response => response.data);
     
     return {
-        type: ALLAWARD,
+        type: ALLAWARDS,
         payload: request
     }
 }

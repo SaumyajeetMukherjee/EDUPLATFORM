@@ -18,7 +18,7 @@ export default function(state={},action){
             return {...state, news:action.payload }
         case ALLALUM:
             return {...state, all:action.payload }
-        case ALLAWARD:
+        case ALLAWARDS:
             return {...state, allnews:action.payload }
         case SEARCHYR:
             return {...state, searchresult:action.payload }

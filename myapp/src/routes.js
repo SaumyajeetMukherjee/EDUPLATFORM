@@ -14,7 +14,6 @@ import Forgot from './components/main/forgotpass';
 import Forget from './components/main/forget'
 import Allalum from './components/main/allcards'
 import Addnews from './components/main/addaward'
-import Subject from './components/main/subject';
 
 import Auth from './components/hoc/auth'
 const Routes = () => {
@@ -25,8 +24,6 @@ const Routes = () => {
 
             <Route exact component={Auth(Main,null)} path="/"/>
 
-            <Route exact component={Auth(Subject,null)} path="/subject"/>
-            
             
             <Route exact component={Auth(Register,null)} path="/register"/>
         

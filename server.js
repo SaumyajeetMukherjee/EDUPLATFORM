@@ -28,13 +28,13 @@ app.use(express.static('myapp/build'))
 
 
 cloudinary.config({
-    cloud_name:'da7qseuhl',
-    api_key:'289797951671668',
-    api_secret:'ny7vcwk-Rc3OKwhmAYMWjfSNnkE'
+    cloud_name:'donuobxms',
+    api_key:'388483226664921',
+    api_secret:'ei0IZlhoFXOoWIf5v7ORPKkgqSQ'
 })
 
 
-const defaultemail={from:'chessnitd2020@gmail.com'}
+const defaultemail={from:'lakehathorn7@gmail.com'}
 
 const sendmail=(emaildata)=>{
     const compemail=Object.assign(defaultemail,emaildata)
@@ -42,8 +42,8 @@ const sendmail=(emaildata)=>{
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'chessnitd2020@gmail.com',
-      pass: '@chessnitd20'
+      user: 'lakehathorn7@gmail.com',
+      pass: 'somaminu'
     }
   });
   
