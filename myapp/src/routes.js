@@ -14,6 +14,7 @@ import Forgot from './components/main/forgotpass';
 import Forget from './components/main/forget'
 import Allalum from './components/main/allcards'
 import Addnews from './components/main/addaward'
+import Chat from "./components/Layout"
 
 import Auth from './components/hoc/auth'
 const Routes = () => {
@@ -46,6 +47,8 @@ const Routes = () => {
 
             <Route exact component={Auth(Allalum,true)} path="/allalum"/>
             <Route exact component={Auth(Addnews,true)} path="/addnews"/>
+            <Route exact component={Auth(Chat,null)} path="/livechat"/>
+            
             
             
             <Route component={Error} /> 

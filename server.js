@@ -10,11 +10,50 @@ const {Member}=require("./server/models/Member")
 const {Record}=require("./server/models/records")
 const {Award}=require("./server/models/Award")
 const jwt=require('jsonwebtoken')
+
+
 var nodemailer = require('nodemailer');
 
 var compression = require('compression'); 
 
 const app=express()
+
+
+ const server = require('http').Server(app);
+ const io = module.exports.io=require('socket.io')(server);
+
+// // WARNING: app.listen(80) will NOT work here!
+
+// app.get('/', function (req, res) {
+//   res.sendFile(__dirname + '/index.html');
+// });
+
+// io.on('connection', function (socket) {
+//   socket.emit('news', { hello: 'world' });
+//   socket.on('my other event', function (data) {
+//     console.log(data);
+//   });
+// });
+
+ const SocketManager = require('./SocketManager')
+
+ io.on('connection', SocketManager)
+
+
+
+// const io = module.exports.io = require('socket.io')(app)
+
+
+// const SocketManager = require('./SocketManager')
+
+// io.on('connection', SocketManager)
+
+
+
+
+
+
+
 require('dotenv').config();
 mongoose.Promise=global.Promise
 mongoose.connect(process.env.MONGODB_URI)
@@ -391,6 +430,19 @@ app.post('/api/members/uploadimage',auth,formidable(),(req,res)=>{
     })
 })
 
+
+  
+
+    app.get('/', function (req, res) {
+        res.statusCode = 200;
+        //...
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    });
+
+
+
 if( process.env.NODE_ENV === 'production' ){
     const path = require('path');
     app.get('/*',(req,res)=>{
@@ -399,7 +451,7 @@ if( process.env.NODE_ENV === 'production' ){
 }
 
 const port = process.env.PORT || 3002;
-app.listen(port,()=>{
+server.listen(port,()=>{
     console.log(`Server Running at ${port}`)
 })
 

@@ -12,6 +12,7 @@
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
     "react-dropzone": "^4.3.0",
+    "react-icons": "^3.9.0",
     "react-images": "^0.5.19",
     "react-moment": "^0.7.9",
     "react-redux": "^5.1.1",
@@ -22,7 +23,9 @@
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "socket.io": "^2.3.0",
+    "uuid": "^7.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,5 +48,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3002"
+  "proxy": "http://localhost:3002",
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2"
+  }
 }

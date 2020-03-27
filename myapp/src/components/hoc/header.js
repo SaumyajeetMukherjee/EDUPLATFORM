@@ -22,9 +22,8 @@ class Header extends Component {
              <div className='header'>
                <div className="containerl">
                <img className="limg" src={logo} alt="eduplat" />
-             <img className="rimg" src={djlogo} alt="djlogo" />
-             <div className="heading1">CHEMICAL ENGINEERING STUDENTS SOCIETY</div>
-             <div className="heading2">NATIONAL INSTITUTE OF TECHNOLOGY DURGAPUR</div>
+             <div className="heading1">EduStream</div>
+             <div className="heading2">Online Student Kit</div>
              </div>
              <nav className="navbar navbar-expand-md bg-dark navbar-dark">
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
