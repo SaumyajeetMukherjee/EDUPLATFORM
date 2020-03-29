@@ -29,7 +29,7 @@ class FormFields extends Component {
             <div className="label_inputs" id="email"><label style={{fontFamily:'sans serif'}}>{this.props.formdata.config.name}</label></div>
             :null  
             }
-            <input className="input" type={this.props.formdata.config.type} placeholder={this.props.formdata.config.placeholder} 
+            <input className="reg_input" type={this.props.formdata.config.type} placeholder={this.props.formdata.config.placeholder} 
             onChange={(event)=>{this.props.change({event,id})}} name={this.props.formdata.config.name}
             onBlur={(event)=> this.props.change({event,id,blur:true})}/>
           {this.showError()}
@@ -45,7 +45,7 @@ class FormFields extends Component {
                 </div>
                 :null}
                <textarea
-               className="textarea"
+               className="reg_textarea"
                 type={this.props.formdata.config.type} 
                 placeholder={this.props.formdata.config.placeholder}
                 value={this.props.formdata.value}

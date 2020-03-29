@@ -111,23 +111,81 @@ resetpassword=(event)=>{
             :
             <div className="containers">
                            
-                           <div className="headtitle row">
-                    <h2 className="neon" style={{fontFamily:"sans serif"}}>PLEASE LOGIN</h2>
-                </div>
- 
            <form id="contact" onSubmit={(event)=>{
                   this.submitform(event)
                 }}>
-                       <div><img src={hexa} id="image"/>
-              <h3>CHEMICAL ENGINEERING STUDENTS SOCIETY</h3>
-                <h4>National Institute of Technology Durgapur</h4>
+                    {this.state.show?
+                <label style={{color:'red',fontSize:"20px"}}>{this.state.show}</label>:null
+                }
+                    <div className="reg_row_img">
+                        <img className="reg_img" src={hexa} alt="EduStream"/>
+
+                    </div>
+                    <div className="reg_row">
+                        <div className="reg_col">
+                        <FormFields
+                            formdata={this.state.formdata.email}
+                            id={'email'}
+                            change={(event)=>{this.updateform(event)}}
+                        />
+
+                        </div>
+                    </div>
+                    <div className="reg_row">
+                        <div className="reg_col">
+                        <FormFields
+                        formdata={this.state.formdata.password}
+                        id={'password'}
+                        change={(event)=>{this.updateform(event)}}
+                            />
+
+                        </div>
+                    </div>
+                <div className="reg_row_img">
+                    <fieldset>
+                    
+                        {/* <button className="contact-submit" style={{padding:"10px"}}onClick={(event)=> this.submitform(event)}>
+                     Login
+                </button> */}
+             <button id="contact-submit"  style={{padding:"10px"}} onClick={(event)=> this.submitform(event)}>
+            LOGIN
+                </button>
+                
+                 {/* <button id="forgot"  style={{padding:"10px"}} onClick={(event)=> this.resetpassword(event)}>
+               
+                </button> */}
+                    </fieldset>
+
+                <fieldset>
+
+                <button 
+                    
+                    id="contact-submit-reset"  
+                    onClick={(event)=> this.resetpassword(event)}>
+                RESET 
+                </button>
+                    </fieldset>
+                </div>
+
+                    
+
+
+                     
+            
+                
+            
+                       
+                       {/*
+
+
+                       
                 {
                     this.state.show?
                 <label style={{color:'red',fontSize:"20px"}}>{this.state.show}</label>:null
                 }
               </div>
                
-               <div className=" row block lblock">
+               <div className="row block lblock">
                <FormFields
                   formdata={this.state.formdata.email}
                   id={'email'}
@@ -144,24 +202,24 @@ resetpassword=(event)=>{
                 </div>
                   
         <div className="row">
-            <div className="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+            <div className="col-lg-6 col-sm-6 col-md-6 col-xs-6"> */}
             {/* <button className="contact-submit" style={{padding:"10px"}}onClick={(event)=> this.submitform(event)}>
                      Login
                 </button> */}
-                <Button variant="outlined" color="primary" id="forgot"  style={{padding:"10px"}} onClick={(event)=> this.submitform(event)}>
+                {/* <Button variant="outlined" color="primary" id="forgot"  style={{padding:"10px"}} onClick={(event)=> this.submitform(event)}>
             LOGIN
                 </Button>
-                </div>
+                </div> */}
                  {/* <button id="forgot"  style={{padding:"10px"}} onClick={(event)=> this.resetpassword(event)}>
                
                 </button> */}
                 
-            <div className="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+            {/* <div className="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <Button variant="outlined" color="primary"  id="forgot"  style={{padding:"10px"}} onClick={(event)=> this.resetpassword(event)}>
                 Forgot Password
                 </Button>
                 </div>
-                </div>
+                </div> */}
                </form>
             </div>
         );

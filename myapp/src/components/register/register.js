@@ -5,6 +5,7 @@ import {update,validform, generatedata} from '../utils/formtions'
 import {connect} from 'react-redux'
 import {registeruser} from '../actions/memberactions'
 import hexa from '../../images/logo.png'
+import Pic from '../utils/pic';
 
 class Register extends Component {
     state={
@@ -165,22 +166,87 @@ onrchange=(e)=>{
     render() {
         return (
             this.state.loading?
-        <center> <CircularProgress thickness={7} size={10} style={{color:'grey'}} />  </center>
+        <center> <CircularProgress thickness={5} size={15} style={{color:'grey'}} />  </center>
             :
             <div className="containers">
                 
-                <div className="headtitle row">
-                    <h2 className="neon" style={{fontFamily:"sans serif"}}>REGISTER YOURSELF TO CHEMICAL ALUMNI DATABASE</h2>
-                </div>
                 <form id="contact" onSubmit={(event)=>{
                   this.submitform(event)
                 }}>
-                             <div><img src={hexa} id="image"/>
-              <h3>CHEMICAL ENGINEERING STUDENTS SOCIETY</h3>
-                <h4>National Institute of Technology Durgapur</h4>
-                
-              </div>
-               <div className="block row">
+
+
+                <div className="reg_row_img">
+                        <div className="reg_col">
+                        <img className="reg_img" src={hexa} alt="EduStream"/>
+                        </div>
+                         
+                </div>
+                <div className="reg_row">
+                        <div className="reg_col">
+                            <FormFields
+                                formdata={this.state.formdata.name}
+                                id={'name'}
+                                change={(event)=>{this.updateform(event)}}
+                            />
+                         </div>
+                         <div className="reg_col">
+                            <FormFields
+                                formdata={this.state.formdata.lastname}
+                                id={'lastname'}
+                                change={(event)=>{this.updateform(event)}}
+                            />
+                         
+                         </div>
+                </div>
+                <div className="reg_row ">
+                <div className="reg_col">
+                <FormFields
+                            formdata={this.state.formdata.email}
+                            id={'email'}
+                            change={(event)=>{this.updateform(event)}}
+                        />
+                </div>
+                        
+                </div>
+                <div className="reg_row">
+                <div className="reg_col">
+                <FormFields
+                        formdata={this.state.formdata.password}
+                        id={'password'}
+                        change={(event)=>{this.updateform(event)}}
+                    />
+                </div>
+                    
+                         
+                </div>   
+                <div className="reg_row">
+                <div className="reg_col">
+                <FormFields
+                        formdata={this.state.formdata.confirmpassword}
+                        id={'confirmpassword'}
+                        change={(event)=>{this.updateform(event)}}
+                    />
+                </div>
+                    
+                </div>
+                <div className="reg_row_img">
+                <div className="reg_col">
+                <fieldset>
+                    <button id="contact-submit" style={{padding:"10px"}} onClick={(event)=> this.submitform(event)}>
+                        Create an account
+                    </button>
+
+                    </fieldset>
+                </div>
+                    
+                    
+                </div>
+            
+                {/* <div><Pic image={hexa} text="EduStream"/></div> */}
+
+
+
+                {/* <div className="block row">
                <FormFields
                   formdata={this.state.formdata.name}
                   id={'name'}
@@ -248,7 +314,7 @@ onrchange=(e)=>{
                 </div>
                 </div>
  */}
-
+{/* 
                 <br></br>
                 <br></br>
                         <center>  
@@ -257,12 +323,15 @@ onrchange=(e)=>{
                      Create an account
                 </button>
                 </fieldset>
-                </center> 
+                </center> */}
                 </form>
-                </div>
+                </div> 
+
+               
                 
         );
     }
 }
 
 export default connect()(Register);
+

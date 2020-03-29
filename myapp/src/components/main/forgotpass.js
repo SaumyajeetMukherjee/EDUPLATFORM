@@ -90,17 +90,43 @@ if(isformvalid){
         <center> <CircularProgress thickness={7} size={10} style={{color:'grey'}} />  </center>
             :
             <div className="containers">
-                <div className="headtitle row">
-                    <h2 className="neon" style={{fontFamily:"sans serif"}}>RESET PASSWORD</h2>
-                </div>
+                
                 <form id="contact" onSubmit={(event)=>{
                   this.submitform(event)
                 }}>
-            <div>
+
+                <div className="reg_row_img">
+                        <div className="reg_col">
+                        <img className="reg_img" src={hexa} alt="EduStream"/>
+                        </div>
+                         
+                </div>
+
+                   <div className="reg_row">
+                <div className="reg_col">
+                <FormFields
+                        formdata={this.state.formdata.password}
+                        id={'password'}
+                        change={(event)=>{this.updateform(event)}}
+                    />
+                </div>
+                    
+                </div>      
+                  
+                <div className="reg_row_img">
+                <div className="reg_col">
+                <fieldset>
+              
+              <button id="contact-submit" style={{padding:"10px"}} onClick={(event)=> this.submitform(event)}>
+                   Reset your Password
+              </button>
+        
+              </fieldset>
+
+                </div>
+                </div>
+            {/* <div>
                 <img src={hexa} id="image"/>
-              <h3>CHEMICAL ENGINEERING STUDENTS SOCIETY</h3>
-                <h4>National Institute of Technology Durgapur</h4>
-                
               </div>
                
                 <div className="block row">
@@ -122,12 +148,12 @@ if(isformvalid){
                 <br></br>
                 
                 <br></br>
-                <br></br>
+                <br></br> */}
                 <fieldset>
-          <center>   
-                <button class="btn btn-primary" style={{padding:"10px"}} onClick={(event)=> this.submitform(event)}>
+             
+                <button class="contact-submit" style={{padding:"10px"}} onClick={(event)=> this.submitform(event)}>
                      Reset your Password
-                </button></center> 
+                </button> 
                 </fieldset>
                 </form>
                 </div>
