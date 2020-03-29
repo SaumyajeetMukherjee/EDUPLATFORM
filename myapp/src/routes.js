@@ -15,8 +15,9 @@ import Forget from './components/main/forget'
 import Allalum from './components/main/allcards'
 import Addnews from './components/main/addaward'
 import Chat from "./components/Layout"
-
+import Live from "./components/main/live"
 import Auth from './components/hoc/auth'
+import ChatContainer from './components/main/ChatContainer';
 const Routes = () => {
     return (
         <Layout>
@@ -24,8 +25,12 @@ const Routes = () => {
             
 
             <Route exact component={Auth(Main,null)} path="/"/>
+            
+            <Route exact component={Auth(Live,null)} path="/live"/>
 
             
+            <Route exact component={Auth(Live,null)} path="/live"/>
+        
             <Route exact component={Auth(Register,null)} path="/register"/>
         
             <Route exact component={Auth(Login,null)} path="/login"/>
@@ -47,7 +52,8 @@ const Routes = () => {
 
             <Route exact component={Auth(Allalum,true)} path="/allalum"/>
             <Route exact component={Auth(Addnews,true)} path="/addnews"/>
-            <Route exact component={Auth(Chat,null)} path="/livechat"/>
+            <Route exact component={Auth(Chat,true)} path="/livechat"/>
+            <Route exact component={Auth(ChatContainer,true)} path="/chat"/>
             
             
             

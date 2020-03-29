@@ -1,14 +1,7 @@
 const io = require('./server.js').io
+let availableRooms=[]
+let connectedPeers = new Map()
 
-const { VERIFY_USER, USER_CONNECTED, USER_DISCONNECTED,
-		LOGOUT, COMMUNITY_CHAT, MESSAGE_RECEIVED, MESSAGE_SENT,
-		TYPING, PRIVATE_MESSAGE  } = require('./myapp/src/Events')
-
-const { createUser, createMessage, createChat } = require('./myapp/src/Factories')
-
-let connectedUsers = { }
-
-let communityChat = createChat()
 
 module.exports = function(socket){
 
@@ -17,104 +10,131 @@ module.exports = function(socket){
 	let sendMessageToChatFromUser;
 	let sendTypingFromUser;
 
-	//Verify Username
-	socket.on(VERIFY_USER, (nickname, callback)=>{
-		if(isUser(connectedUsers, nickname)){
-			callback({ isUser:true, user:null })
+	// //Verify Username
+	// socket.on(VERIFY_USER, (nickname, callback)=>{
+	// 	if(isUser(connectedUsers, nickname)){
+	// 		callback({ isUser:true, user:null })
+	// 	}else{
+	// 		callback({ isUser:false, user:createUser({name:nickname, socketId:socket.id})})
+	// 	}
+	// })  
+
+	// socket.on('adduser',(user)=>{
+	// socket.user=user	
+	// })
+
+	// })
+	roomList()
+
+	socket.on('verifyrooms', (roomname, callback)=>{
+		console.log('ddjjj')
+		
+		if(isUser(availableRooms, roomname)){
+			console.log(availableRooms,roomname)
+			callback({ isRoom:true, user:null })
 		}else{
-			callback({ isUser:false, user:createUser({name:nickname, socketId:socket.id})})
+			callback({ isRoom:false, room:{room:roomname}})
 		}
 	})
 
-	//User Connects with username
-	socket.on(USER_CONNECTED, (user)=>{
-		user.socketId = socket.id
-		connectedUsers = addUser(connectedUsers, user)
-		socket.user = user
-
-		sendMessageToChatFromUser = sendMessageToChat(user.name)
-		sendTypingFromUser = sendTypingToChat(user.name)
-
-		io.emit(USER_CONNECTED, connectedUsers)
-		console.log(connectedUsers);
-
-	})
-
+      socket.on('error',function(err){
+       console.log(err)
+	  })
 	//User disconnects
-	socket.on('disconnect', ()=>{
-		if("user" in socket){
-			connectedUsers = removeUser(connectedUsers, socket.user.name)
+	// socket.on('disconnect', ()=>{
+	// 	// if("user" in socket){
+	// 	// 	connectedUsers = removeUser(connectedUsers, socket.user.name)
 
-			io.emit(USER_DISCONNECTED, connectedUsers)
-			console.log("Disconnect", connectedUsers);
+	// 	// 	io.emit(USER_DISCONNECTED, connectedUsers)
+	// 		console.log("Disconnect");
+	// 	// }
+	// })
+
+	socket.emit('connection-success', { success: socket.id })
+
+	connectedPeers.set(socket.id, socket)
+  
+	socket.on('disconnect', () => {
+	  console.log('disconnected')
+	  connectedPeers.delete(socket.id)
+	})
+  
+	socket.on('offerOrAnswer', (data) => {
+	  for (const [socketID, socket] of connectedPeers.entries()) {
+		if (socketID !== data.socketID) {
+		  console.log(socketID, data.payload.type)
+		  socket.emit('offerOrAnswer', data.payload)
 		}
+	  }
 	})
-
-
-	//User logsout
-	socket.on(LOGOUT, ()=>{
-		connectedUsers = removeUser(connectedUsers, socket.user.name)
-		io.emit(USER_DISCONNECTED, connectedUsers)
-		console.log("Disconnect", connectedUsers);
-
-	})
-
-	//Get Community Chat
-	socket.on(COMMUNITY_CHAT, (callback)=>{
-		callback(communityChat)
-	})
-
-	socket.on(MESSAGE_SENT, ({chatId, message})=>{
-		sendMessageToChatFromUser(chatId, message)
-	})
-
-	socket.on(TYPING, ({chatId, isTyping})=>{
-		sendTypingFromUser(chatId, isTyping)
-	})
-
-	socket.on(PRIVATE_MESSAGE, ({receiver, sender})=>{
-		if (receiver in connectedUsers) {
-			const newChat = createChat({ name:`${receiver} & ${sender}`, user:[receiver, sender] })
-			const receiverSocket = connectedUsers[receiver].socketId
-			socket.to(receiverSocket).emit(PRIVATE_MESSAGE, newChat)
-			socket.emit(PRIVATE_MESSAGE, newChat)
+  
+	socket.on('candidate', (data) => {
+	  for (const [socketID, socket] of connectedPeers.entries()) {
+		if (socketID !== data.socketID) {
+		  console.log(socketID, data.payload)
+		  socket.emit('candidate', data.payload)
 		}
+	  }
 	})
 
-}
+   socket.on('joinroom',(roomname)=>{
+	   console.log("JOINED")
+	   socket.join(roomname)
+	   
+   })
+   socket.on('subscribe', function(data) { socket.join(data); })
 
-// Returns a function that will take a chat id and a boolean isTyping
-// and then emit a broadcast to the chat id that the sender is typing
-function sendTypingToChat(user){
-	return (chatId, isTyping)=>{
-		io.emit(`${TYPING}-${chatId}`, {user, isTyping})
+	socket.on("message",({roomname,user,message})=>{
+		const mess={
+				
+				message
+
+		}
+		console.log(roomname,user)
+		// console.log(io.sockets.clients(roomname))
+	
+		io.of('/').to(roomname).emit("activemessage",{message})
+
+
+		console.log(getAllRoomMembers(roomname))
+		console.log(mess)
+	})
+
+
+	function getAllRoomMembers(room, _nsp) {
+		var roomMembers = [];
+		var nsp = (typeof _nsp !== 'string') ? '/' : _nsp;
+	
+		for( var member in io.nsps[nsp].adapter.rooms[room] ) {
+			roomMembers.push(member);
+		}
+	
+		return roomMembers;
 	}
+	
 }
 
 
-// Returns a function that will take a chat id and message
-// and then emit a broadcast to the chat id.
-function sendMessageToChat(sender){
-	return (chatId, message)=>{
-		io.emit(`${MESSAGE_RECEIVED}-${chatId}`, createMessage({message, sender}))
-	}
+function findRooms() {
+	var rooms = io.sockets.adapter.rooms;
+     availableRooms=[]
+    if (rooms) {
+        for (var room in rooms) {
+            if (!rooms[room].hasOwnProperty(room)) {
+				console.log(room)
+                availableRooms.push(room);
+            }
+        }
+    }
+    return availableRooms;
 }
 
-// Adds user to list passed in.
-function addUser(userList, user){
-	let newList = Object.assign({}, userList)
-	newList[user.name] = user
-	return newList
+function roomList(){
+	let rooms=findRooms()
+	console.log(rooms)
+	io.emit('rooms',rooms)
 }
 
-// Removes user from the list passed in.
-function removeUser(userList, username){
-	let newList = Object.assign({}, userList)
-	delete newList[username]
-	return newList
-}
-
-// Checks if the user is in list passed in.
 function isUser(userList, username){
   	return username in userList
 }

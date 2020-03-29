@@ -10,6 +10,7 @@ const {Member}=require("./server/models/Member")
 const {Record}=require("./server/models/records")
 const {Award}=require("./server/models/Award")
 const jwt=require('jsonwebtoken')
+const fs = require('fs')
 
 
 var nodemailer = require('nodemailer');
@@ -18,41 +19,12 @@ var compression = require('compression');
 
 const app=express()
 
-
  const server = require('http').Server(app);
  const io = module.exports.io=require('socket.io')(server);
-
-// // WARNING: app.listen(80) will NOT work here!
-
-// app.get('/', function (req, res) {
-//   res.sendFile(__dirname + '/index.html');
-// });
-
-// io.on('connection', function (socket) {
-//   socket.emit('news', { hello: 'world' });
-//   socket.on('my other event', function (data) {
-//     console.log(data);
-//   });
-// });
 
  const SocketManager = require('./SocketManager')
 
  io.on('connection', SocketManager)
-
-
-
-// const io = module.exports.io = require('socket.io')(app)
-
-
-// const SocketManager = require('./SocketManager')
-
-// io.on('connection', SocketManager)
-
-
-
-
-
-
 
 require('dotenv').config();
 mongoose.Promise=global.Promise
@@ -82,7 +54,7 @@ var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'lakehathorn7@gmail.com',
-      pass: 'somaminu'
+      pass: 'Soma+saumya0'
     }
   });
   
@@ -109,8 +81,8 @@ var transporter = nodemailer.createTransport({
         const emaildata={
             to:req.body.email,
             subject:'REGISTRATION',
-            text:"YOU ARE REGISTERED FOR CHESS",
-            html:`<p>WELCOME,${doc.name} TO CHESS</p>`
+            text:"YOU ARE REGISTERED FOR EDUSTREAM",
+            html:`<p>WELCOME,${doc.name} TO EDUSTREAM</p>`
         }
         
      sendmail(emaildata)
@@ -285,6 +257,78 @@ app.post('/api/records/searchyr',auth,(req,res)=>{
 })
 })
 
+
+app.post('/api/records/writeuser',auth,(req,res)=>{
+    if(fs.existsSync(`./${req.body.roomname}.json`)){
+
+    let users=fs.readFileSync(`./${req.body.roomname}.json`)
+    
+    users=JSON.parse(users)
+    console.log(users)
+    users=users.concat(req.body.user)
+    console.log(users)
+    try{
+        fs.writeFileSync(`./${req.body.roomname}.json`, JSON.stringify(users) , 'utf-8')
+        res.status(200).json({
+            successwrite:"filecreated"
+        })
+       }catch(e){
+           console.log(e)
+           res.status(400).json({
+            successwrite:"FILE NOT CREATED"
+        })
+       }
+     }else{
+    let users=[]   
+    console.log(req.body.user)  
+    users=users.concat(req.body.user)
+    console.log(users)
+    console.log(JSON.stringify(users))
+    try{
+        fs.writeFileSync(`./${req.body.roomname}.json`, JSON.stringify(users) , 'utf-8')
+        res.status(200).json({
+            successwrite:"filecreated"
+        })
+       }catch(e){
+           console.log(e)
+           res.status(400).json({
+            successwrite:"FILE NOT CREATED"
+        })
+       }
+     }
+ 
+})
+
+
+app.post('/api/records/endsession',auth,(req,res)=>{
+    try{
+           var attachments={   
+              filename: `ATTENDANCE FILE OF${req.body.room} `,
+              path: `./${req.body.room}.json`
+                 }
+            const emaildata={
+                    to:req.body.email,
+                    subject:'ATTENDANCE',
+                    text:"HERE IS YOUR ATTENDANCE FILE",
+                    attachments:attachments,
+                    html:`<p>HERE IS YOUR ATTENDANCE FILE</p>`
+                }
+
+                fs.unlinkSync(`./${req.body.room}.json`)
+                sendmail(emaildata)
+                res.status(200).json({
+                    endsession:"SUCCESSFUl"
+                })
+            }catch(e){
+                console.log(e)
+                res.status(400).json({
+                    endsession:e
+                })
+        
+            }
+})
+
+
 app.post('/api/records/adddetail',auth,(req,res)=>{
   
     const record = new Record(req.body);
@@ -411,6 +455,7 @@ app.get('/api/members/auth',auth,(req,res)=>{
         isAuth: true,
         email: req.user.email,
         name: req.user.name,
+        id:req.user.id,
         lastname: req.user.lastname,
         role: req.user.role,
         cart: req.user.cart,
@@ -430,19 +475,6 @@ app.post('/api/members/uploadimage',auth,formidable(),(req,res)=>{
     })
 })
 
-
-  
-
-    app.get('/', function (req, res) {
-        res.statusCode = 200;
-        //...
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-    });
-
-
-
 if( process.env.NODE_ENV === 'production' ){
     const path = require('path');
     app.get('/*',(req,res)=>{
@@ -451,7 +483,7 @@ if( process.env.NODE_ENV === 'production' ){
 }
 
 const port = process.env.PORT || 3002;
-server.listen(port,()=>{
+app.listen(port,()=>{
     console.log(`Server Running at ${port}`)
 })
 

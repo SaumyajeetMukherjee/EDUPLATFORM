@@ -1,64 +1,40 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client'
-import { USER_CONNECTED, LOGOUT } from '../Events'
 import LoginForm from './LoginForm'
-import ChatContainer from './chats/ChatContainer'
+import {connect} from 'react-redux'
 
-const socketUrl = "http://localhost:3002"
-export default class Layout extends Component {
+ class Layout extends Component {
 
-	constructor(props) {
-	  super(props);
-
-	  this.state = {
-	  	socket:null,
-	  	user:null
-	  };
-	}
-
-	componentWillMount() {
-		this.initSocket()
-	}
-	
-
-	// Connect to and initializes the socket.
-	initSocket = ()=>{
-		const socket = io(socketUrl)
-
-		socket.on('connect', ()=>{
-			console.log("Connected");
-		})
-
-		this.setState({socket})
-	}
-
-	// Sets the user property in state
-	setUser = (user)=>{
-		const { socket } = this.state
-		socket.emit(USER_CONNECTED, user);
-		this.setState({user})
-	}
-
-	// Sets the user property in state to null.
-	logout = ()=>{
-		const { socket } = this.state
-		socket.emit(LOGOUT)
-		this.setState({user:null})
-
-	}
+	  state = {
+	  	
+		  change:false,
+		  room:null
+         	  }
 
 	render() {
-		const { title } = this.props
-		const { socket, user } = this.state
 		return (
-			<div className="containerchat">
-				{
-					!user ?
-					<LoginForm socket={socket} setUser={this.setUser} />
-					:
-					<ChatContainer socket={socket} user={user} logout={this.logout}/>
-				}
+			
+			<div className="container">
+				{/* {
+					// !user ?
+					this.state.change?
+					 <ChatContainer socket={socket} user={this.props.user.userData.id} room={this.state.roomname} logout={this.logout} changeRoute={this.changeRoute}/>
+					
+					: */}
+					<LoginForm/>
+					{/* // :
+					
+				} */}
 			</div>
-		);
-	}
-}
+		    );
+	       } 
+        }
+
+
+     const mapStateToProps=(state)=>{
+    
+       return{
+           user:state.member,
+             }    
+                                 }
+
+export default connect(mapStateToProps)(Layout);

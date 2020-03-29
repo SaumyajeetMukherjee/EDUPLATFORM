@@ -1,60 +1,35 @@
 import React, { Component } from 'react';
 
 export default class Messages extends Component {
-	constructor(props) {
-	  super(props);
-		
-		this.scrollDown = this.scrollDown.bind(this)
-	}
 
-	scrollDown(){
-		const { container } = this.refs
-		container.scrollTop = container.scrollHeight
-	}
-
-	componentDidMount() {
-		this.scrollDown()
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		this.scrollDown()
-	}
-	
 	render() {
 		const { messages, user, typingUsers } = this.props
 		return (
+           <div className="row">
 			<div ref='container'
-				className="thread-container">
+				className="thread-container" style={{height:"500px"}}>
 				<div className="thread">
 					{
-						messages.map((mes)=>{
+						messages.map((mes,i)=>{
 							return (
 								<div
-									key={mes.id}
-									className={`message-container ${mes.sender === user.name && 'right'}`}
+									key={i}
+									className={`message-container ${mes.name === user.name && 'right'}`}
 								>
-									<div className="time">{mes.time}</div>
+									
 									<div className="data">
 										<div className="message">{mes.message}</div>
-										<div className="name">{mes.sender}</div>
+										<div className="name">{mes.name}</div>
 									</div>
 								</div>
 
 								)
 						})
 					}
-					{
-						typingUsers.map((name)=>{
-							return (
-								<div key={name} className="typing-user">
-									{`${name} is typing . . .`}
-								</div>
-							)
-						})
-					}
+				
 				</div>
 
-
+				</div>
 			</div>
 		);
 	}
