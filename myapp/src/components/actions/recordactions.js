@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+    WRITEUSER,
     ADDDETAIL,
     ADDRECORD,
     ALLAWARDS,
@@ -7,6 +8,7 @@ import {
     ADDAWARD,
     SEARCHYR,
     GETRECORD,
+    ENDSESSION,
     ADDEDUCATION
 } from './types';
 
@@ -79,6 +81,23 @@ export function searchyear(data){
     }
 }
 
+
+
+export function writeuser(user,roomname){
+    const data={
+        roomname,
+        user
+    }
+    console.log(data)
+    const request = axios.post(`${RECORD_SERVER}/writeuser`,data)
+        .then(response => response.data);
+    return {
+        type:WRITEUSER,
+        payload: request
+    }
+}
+
+
 export function addrecord(data,email){
     console.log(data)
     const request = axios.post(`${RECORD_SERVER}/records`,data)
@@ -86,6 +105,20 @@ export function addrecord(data,email){
     
     return {
         type: ADDRECORD,
+        payload: request
+    }
+}
+
+export function endsession(room,email){
+    const data={
+        room,email
+    }
+    console.log(data)
+    const request = axios.post(`${RECORD_SERVER}/endsession`,data)
+        .then(response => response.data);
+    
+    return {
+        type: ENDSESSION,
         payload: request
     }
 }
