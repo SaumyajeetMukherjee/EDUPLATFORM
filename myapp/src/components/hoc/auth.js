@@ -47,7 +47,7 @@ export default function(ComposedClass,reload,adminRoute = null){
         }
     }
 
-    function mapStateToProps(state){
+    const mapStateToProps=(state)=>{
         return {
             user:state.member
         }
